@@ -40,13 +40,16 @@ app
   };`);
   })
   .get('/fetch/', (req, res, next) => {
-    req.app._router.stack.forEach(mw => console.log(mw.name))
-    if (req.query.error == 'yes') return next();   
-    res.send('<input id="inp"></input><button type= "button" id = "bt" onclick = "getInputValue()">ClickMe</button>');
-    function getInputValue(){
-      var inputVal = document.getElementById("bt").value;
-      return inputVal;
-    } const a = document.getElementById('inp').textContent = `${inputVal}`;
+    res.set({"Content-Type":"text/html; charset=utf-8"})
+    if (req.query.error == 'yes') return next();
+    async function func(){
+      const input = document.querySelector('#inp');
+      const inputLink = input.value;
+      const response = await fetch(inputLink);
+      const result = await response.text();
+     
+      input.value = result;
+    }
   })
 
   .use((req, res, next) => { req.errorMessage = 'Всё ещё нет'; next(); })
