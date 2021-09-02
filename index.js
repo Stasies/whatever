@@ -19,6 +19,19 @@ app
     if (req.query.error == 'yes') return next();   
     res.send(req.working);
   })
+.get('/login/', (req, res, next) => {
+    req.app._router.stack.forEach(mw => console.log(mw.name))
+    if (req.query.error == 'yes') return next();   
+    res.send('tia.nntr.wth');
+  })
+.get('/sample/', (req, res, next) => {
+    req.app._router.stack.forEach(mw => console.log(mw.name).set({"Content-Type":"text/plain; charset=utf-8"})
+    if (req.query.error == 'yes') return next();   
+    res.send(`function task(x){
+  this.x = x*x;
+  return x*this.x;
+  };`);
+  })
   .use((req, res, next) => { req.errorMessage = 'Всё ещё нет'; next(); })
   .use(r => r.res.status(404).set(hu).send(r.errorMessage))
   .use((e, r, rs, n) => rs.status(500).set(hu).send(`Ошибка: ${e}`))
