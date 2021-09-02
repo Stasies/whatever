@@ -25,11 +25,11 @@ app
     res.send('tia.nntr.wth');
   })
 .get('/sample/', (req, res, next) => {
-    req.app._router.stack.forEach(mw => console.log(mw.name).set({"Content-Type":"text/plain; charset=utf-8"})
+    res.set({"Content-Type":"text/plain; charset=utf-8"})
     if (req.query.error == 'yes') return next();   
-    res.send(`function task(x){
-  this.x = x*x;
-  return x*this.x;
+    res.send(`function task(x){\n
+  this.x = x*x;\n
+  return x*this.x;\n
   };`);
   })
   .use((req, res, next) => { req.errorMessage = 'Всё ещё нет'; next(); })
