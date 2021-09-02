@@ -42,6 +42,8 @@ app
   .get('/fetch/', (req, res, next) => {
     res.set({"Content-Type":"text/html; charset=utf-8"})
     if (req.query.error == 'yes') return next();
+  res.send('<input type="text" id="inp" placeholder="Поле ввода"><Br>
+<button id="bt" onclick="func()">Нажми</button>');
     async function func(){
       const input = document.querySelector('#inp');
       const inputLink = input.value;
