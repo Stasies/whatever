@@ -6,6 +6,10 @@ const { log } = console;
 const hu = { 'Content-Type': 'text/html; charset=utf-8' };
 const app = x();
 const mw0 = (r, rs, n) => rs.status(200).set(hu) && n();
+const CORS = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Headers': 'Content-Type, Access-Control-Allow-Headers'
+   };
 Router
   .route('/')
   .get(r => r.res.end('Привет мир!'));
@@ -20,12 +24,12 @@ app
     res.send(req.working);
   })
 .get('/login/', (req, res, next) => {
-    req.app._router.stack.forEach(mw => console.log(mw.name))
+    res.set({"Content-Type":"text/html; charset=utf-8", ...CORS})
     if (req.query.error == 'yes') return next();   
     res.send('tia.nntr.wth');
   })
 .get('/sample/', (req, res, next) => {
-    res.set({"Content-Type":"text/plain; charset=utf-8"})
+    res.set({"Content-Type":"text/plain; charset=utf-8", ...CORS})
     if (req.query.error == 'yes') return next();   
     res.send(`function task(x){
   this.x = x*x;
