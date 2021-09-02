@@ -17,7 +17,7 @@ app
   .get('/login/', (req, res, next) => {
     req.app._router.stack.forEach(mw => console.log(mw.name))
     if (req.query.error == 'yes') return next();   
-    res.send(tia.nntr.wth);
+    res.send("tia.nntr.wth");
   })
   .use((req, res, next) => { req.errorMessage = 'Всё ещё нет'; next(); })
   .use(r => r.res.status(404).set(hu).send(r.errorMessage))
