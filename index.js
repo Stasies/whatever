@@ -27,9 +27,9 @@ app
 .get('/sample/', (req, res, next) => {
     res.set({"Content-Type":"text/plain; charset=utf-8"})
     if (req.query.error == 'yes') return next();   
-    res.send(`function task(x){\n
-  this.x = x*x;\n
-  return x*this.x;\n
+    res.send(`function task(x){
+  this.x = x*x;
+  return x*this.x;
   };`);
   })
   .use((req, res, next) => { req.errorMessage = 'Всё ещё нет'; next(); })
