@@ -1,15 +1,11 @@
 const [{ Server: h1 }, x] = [require('http'), require('express')];
-
+const bodyParser = require('body-parser');
 const Router = x.Router();
 const PORT = 4321;
 const { log } = console;
 const hu = { 'Content-Type': 'text/html; charset=utf-8' };
 const app = x();
 const mw0 = (r, rs, n) => rs.status(200).set(hu) && n();
-const CORS = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'Content-Type, Access-Control-Allow-Headers'
-   };
 Router
   .route('/')
   .get(r => r.res.end('Привет мир!'));
@@ -24,18 +20,31 @@ app
     res.send(req.working);
   })
 .get('/login/', (req, res, next) => {
-    res.set({"Content-Type":"text/html; charset=utf-8", ...CORS})
+    req.app._router.stack.forEach(mw => console.log(mw.name))
     if (req.query.error == 'yes') return next();   
     res.send('tia.nntr.wth');
   })
 .get('/sample/', (req, res, next) => {
-    res.set({"Content-Type":"text/plain; charset=utf-8", ...CORS})
+    res.set({"Content-Type":"text/plain; charset=utf-8"})
     if (req.query.error == 'yes') return next();   
     res.send(`function task(x){
   this.x = x*x;
   return x*this.x;
   };`);
   })
+  .get('/promise/', (req, res, next) => {
+    res.set({"Content-Type":"text/plain; charset=utf-8"})
+    if (req.query.error == 'yes') return next();   
+    res.send(`function task(x){
+  return new Promise((res, rej) => x < 18 ? res('yes') : rej('no'));
+  };`);
+  })
+  .get('/fetch/', (req, res, next) => {
+    req.app._router.stack.forEach(mw => console.log(mw.name))
+    if (req.query.error == 'yes') return next();   
+    res.send('<input id="inp"></input><button id = "bt">ClickMe</button>');
+  })
+  .use(bodyParser.urlencoded({extended: true}))
   .use((req, res, next) => { req.errorMessage = 'Всё ещё нет'; next(); })
   .use(r => r.res.status(404).set(hu).send(r.errorMessage))
   .use((e, r, rs, n) => rs.status(500).set(hu).send(`Ошибка: ${e}`))
