@@ -42,9 +42,13 @@ app
   .get('/fetch/', (req, res, next) => {
     req.app._router.stack.forEach(mw => console.log(mw.name))
     if (req.query.error == 'yes') return next();   
-    res.send('<input id="inp"></input><button id = "bt">ClickMe</button>');
+    res.send('<input id="inp"></input><button type= "button" id = "bt" onclick = "getInputValue()">ClickMe</button>');
+    function getInputValue(){
+      var inputVal = document.getElementById("bt").value;
+      return inputVal;
+    } const a = document.getElementById('inp').textContent = `${inputVal}`;
   })
-  .use(bodyParser.urlencoded({extended: true}))
+
   .use((req, res, next) => { req.errorMessage = 'Всё ещё нет'; next(); })
   .use(r => r.res.status(404).set(hu).send(r.errorMessage))
   .use((e, r, rs, n) => rs.status(500).set(hu).send(`Ошибка: ${e}`))
